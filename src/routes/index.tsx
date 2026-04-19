@@ -22,6 +22,9 @@ import structTypeDist from "../assets/struct_type_dist.svg";
 import transactionFreq from "../assets/transaction_frequency.svg";
 import educationHouseDist from "../assets/education_house_type_dist.svg";
 import priceTorontoDist from "../assets/toronto_static_map.webp";
+import toClusters from "../assets/toronto_kmean_clusters.svg";
+import priceOccupancyDist from "../assets/price_occupancy_dist.svg";
+import featureImportance from "../assets/feature_importance.svg";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -133,7 +136,7 @@ function MapControls({
             {selected.length === 0 ? (
               <div className="rounded-md border border-dashed p-4 text-center">
                 <p className="text-xs text-muted-foreground italic">
-                  Tap neighborhoods on map to compare
+                  Tap neighbourhoods on the map to compare
                 </p>
               </div>
             ) : (
@@ -161,7 +164,7 @@ function MapControls({
               disabled={selected.length === 0}
               onClick={handleCompareClick}
             >
-              Compare Neighborhoods
+              Compare Neighbourhoods
             </Button>
           </div>
         </CardContent>
@@ -475,7 +478,7 @@ function Home() {
         </section>
 
         <section className="py-18 space-y-6 border-t border-slate-100">
-          <div className="space-y-2">
+          <div className="space-y-4">
             <h2 className="text-4xl font-extrabold tracking-tight">
               Data Collection
             </h2>
@@ -501,7 +504,7 @@ function Home() {
             <h2 className="text-4xl font-extrabold tracking-tight">
               Exploratory Data Analysis
             </h2>
-            <p className="text-slate-500 max-w-2xl">
+            <p className="text-xl text-slate-600 leading-relaxed">
               We analyzed 11,000+ property records to identify structural trends
               before modeling.
             </p>
@@ -592,9 +595,9 @@ function Home() {
               <p className="text-sm text-slate-500">
                 Visualizing price distribution on a logarithmic scale reveals
                 the segmentation of the Toronto housing market. The majority of
-                condominiums fall below $1M, whereas detached and
-                semi-detached properties exhibit a significantly wider variance.
-                This highlights the prioritized demand for land ownership over
+                condominiums fall below $1M, whereas detached and semi-detached
+                properties exhibit a significantly wider variance. This
+                highlights the prioritized demand for land ownership over
                 high-density living spaces.
               </p>
             </div>
@@ -775,10 +778,37 @@ function Home() {
           <div className="space-y-6">
             <div className="space-y-2">
               <h3 className="text-lg font-medium">
+                Sale Price vs. Neighbourhood Tenure Percentage
+              </h3>
+              <p className="text-sm text-slate-500">
+                By correlating 2021 Census tenure data with housing sales, we
+                observe how Owner Occupancy acts as a proxy for neighbourhood
+                stability. Higher concentrations of homeownership typically
+                align with price premiums, whereas areas dominated by rental
+                tenure often exhibit lower prices.
+              </p>
+            </div>
+
+            <figure className="bg-slate-50/50 rounded-lg border p-8">
+              <img
+                src={priceOccupancyDist}
+                alt="Scatter plot showing the correlation between household tenure and home sale prices"
+                className="w-full h-auto"
+              />
+              <figcaption className="mt-6 text-center text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+                Fig 1.10 — Regression Analysis of Log Sale Price vs. Percentage
+                of Owner-Occupied Households
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium">
                 The Geography of Real Estate Prices
               </h3>
               <p className="text-sm text-slate-500">
-                The spatial distribution in Figure 1.10 shows clusters of
+                The spatial distribution in Figure 1.11 shows clusters of
                 high-value neighbourhoods, where prices consistently exceed
                 $2.5M. Highlighted by the deep purple surrounding these
                 clusters, where prices drop abruptly. Ultimately, the map proves
@@ -795,10 +825,156 @@ function Home() {
                 className="w-full h-auto"
               />
               <figcaption className="mt-6 text-center text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-                Fig 1.10 — Spatial Distribution of Sold Prices ($) overlaid on
-                neighborhood boundaries
+                Fig 1.11 — Spatial Distribution of Sold Prices ($) overlaid on
+                neighbourhood boundaries
               </figcaption>
             </figure>
+          </div>
+        </section>
+        <section className="py-18 space-y-12 border-t border-slate-100">
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold tracking-tight">
+              Feature Engineering
+            </h2>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              In addition to property attributes, we constructed three new
+              features to improve model performance. These engineered variables
+              were constructed to represent practical considerations in real
+              life housing valuation. The first feature, Total number of
+              bedrooms (total_beds), is the sum of bedrooms and bedrooms_plus.
+              The second feature, Square Footage per Room (sqft_per_room), is
+              the division between sqft and rooms. The third feature, Bedrooms
+              to Bathrooms Ratio (beds_to_bath), is the division between
+              total_beds and bathrooms.
+            </p>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              Our second model includes the base model's features and the
+              socioeconomic features of each neighbourhood. The model includes
+              median household income, the percentage of bachelor's degree or
+              higher, transit utilization, percentage of owner occupancy, and
+              income skewness. We hypothesize that the socioeconomic features
+              will outweigh most of the property attributes.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium">Toronto Pricing Clusters</h3>
+              <p className="text-sm text-slate-500">
+                This visualization uses k-means clustering on Latitude and
+                Longitude to segment the Toronto housing market into 15 distinct
+                zones. By clustering spatially, we segmented local housing
+                prices regardless of their physical neighbourhood.
+              </p>
+            </div>
+
+            <figure className="bg-slate-50/50 rounded-lg border p-8">
+              <img
+                src={toClusters}
+                alt="Spatial cluster map of Toronto housing sale prices"
+                className="w-full h-auto"
+              />
+              <figcaption className="mt-6 text-center text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+                Fig 2.1 — Geographic Centroids and Log-Price Density
+                Distribution
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+        <section className="py-18 space-y-12 border-t border-slate-100">
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold tracking-tight">
+              Algorithm Selection
+            </h2>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              We chose LightGBM, short for Light Gradient Boosting Machine, a
+              widely used model in predictive tasks as an ensemble method that
+              sequentially builds decision trees. We constructed two models, a
+              base model using exclusively physical attributes of a property,
+              and an advanced model that is aware of socioeconomic and spatial
+              features, for comparison.
+            </p>
+          </div>
+        </section>
+        <section className="py-18 space-y-12 border-t border-slate-100">
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold tracking-tight">
+              Model Evaluation
+            </h2>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              To validate the impact of socioeconomic data, we compared a
+              baseline model against our socioeconomic and spatial aware model.
+              The results confirm that socioeconomic indicators provide a
+              superior price estimation, outperforming traditional structure
+              metrics in explaining pricing variance.Integrating socioeconomic
+              data, we achieved a 31.6% reduction in Mean Absolute Error (MAE).
+              In other words we narrowed the evaluation gap from $
+              {Number(225499).toLocaleString()} to $
+              {Number(154157).toLocaleString()}.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6">
+            <div className="p-6 bg-slate-50 rounded-xl border border-slate-100">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">
+                Predictive Lift
+              </h4>
+              <div className="text-3xl font-mono font-bold text-slate-900">
+                -31.6%
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                Reduction in Mean Absolute Error (MAE) compared to physical
+                baseline.
+              </p>
+            </div>
+            <div className="p-6 bg-slate-50 rounded-xl border border-slate-100">
+              <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">
+                Dominant Driver
+              </h4>
+              <div className="text-3xl font-bold text-slate-900">
+                Income Skewness
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                Ranked as the #2 most influential feature, surpassing bathroom
+                and bedroom counts.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-lg font-medium">
+                Feature Importance Hierarchy
+              </h3>
+              <p className="text-sm text-slate-500">
+                Figure 3.1 shows a shift in the model logic as physical features
+                are relatively less important to estimating housing prices.
+                While square footage remains a strong indicator, socioeconomic
+                indicators, specifically income skewness and educational
+                attainment, emerge as the dominant indicator of price.
+              </p>
+            </div>
+
+            <figure className="bg-slate-50/50 rounded-lg border p-8">
+              <img
+                src={featureImportance}
+                alt="Bar chart showing socioeconomic features outranking physical attributes in predictive gain"
+                className="w-full h-auto"
+              />
+              <figcaption className="mt-6 text-center text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+                Fig 3.1 — Feature Importance (Total Gain)
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+        <section className="py-18 space-y-12 border-t border-slate-100">
+          <div className="space-y-4">
+            <h2 className="text-4xl font-extrabold tracking-tight">
+              Conclusion and Discussion
+            </h2>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              In conclusion, 
+            </p>
           </div>
         </section>
       </div>
