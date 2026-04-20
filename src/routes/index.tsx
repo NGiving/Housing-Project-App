@@ -12,19 +12,19 @@ import type { LayerState, MapLayerId } from "@/types/map";
 import * as Bokeh from "@bokeh/bokehjs";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import educationHouseDist from "../assets/education_house_type_dist.svg";
+import featureImportance from "../assets/feature_importance.svg";
 import priceDist from "../assets/price_dist.svg";
 import priceDomDist from "../assets/price_dom_dist.svg";
 import priceIncomeReg from "../assets/price_income_regplot.svg";
+import priceOccupancyDist from "../assets/price_occupancy_dist.svg";
 import priceSqft from "../assets/price_sqft.svg";
 import priceTransitReg from "../assets/price_transit_regplot.svg";
 import propTypeDist from "../assets/prop_type_dist.svg";
 import structTypeDist from "../assets/struct_type_dist.svg";
-import transactionFreq from "../assets/transaction_frequency.svg";
-import educationHouseDist from "../assets/education_house_type_dist.svg";
-import priceTorontoDist from "../assets/toronto_static_map.webp";
 import toClusters from "../assets/toronto_kmean_clusters.svg";
-import priceOccupancyDist from "../assets/price_occupancy_dist.svg";
-import featureImportance from "../assets/feature_importance.svg";
+import priceTorontoDist from "../assets/toronto_static_map.webp";
+import transactionFreq from "../assets/transaction_frequency.svg";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -33,10 +33,6 @@ export const Route = createFileRoute("/")({
 const LAYER_DISPLAY_NAMES: Record<MapLayerId, string> = {
   base: "Base Map",
   med_income: "Median Household Income",
-  avg_age: "Average Resident Age",
-  avg_household_size: "Average Household Size",
-  employment_rate: "Employment Rate",
-  unemployment_rate: "Unemployment Rate",
 };
 
 interface MapControlsProps {
@@ -805,14 +801,14 @@ function Home() {
           <div className="space-y-6">
             <div className="space-y-2">
               <h3 className="text-lg font-medium">
-                The Geography of Real Estate Prices
+                The Geography of Home Prices
               </h3>
               <p className="text-sm text-slate-500">
                 The spatial distribution in Figure 1.11 shows clusters of
                 high-value neighbourhoods, where prices consistently exceed
                 $2.5M. Highlighted by the deep purple surrounding these
                 clusters, where prices drop abruptly. Ultimately, the map proves
-                that Toronto's real estate value is heavily anchored to specific
+                that Toronto's property value is heavily anchored to specific
                 geographic and socioeconomic boundaries rather than a uniform
                 city-wide trend.
               </p>
@@ -863,7 +859,7 @@ function Home() {
               <p className="text-sm text-slate-500">
                 This visualization uses k-means clustering on Latitude and
                 Longitude to segment the Toronto housing market into 15 distinct
-                zones. By clustering spatially, we segmented local housing
+                zones. By clustering spatially, we segmented local property
                 prices regardless of their physical neighbourhood.
               </p>
             </div>
@@ -970,10 +966,49 @@ function Home() {
         <section className="py-18 space-y-12 border-t border-slate-100">
           <div className="space-y-4">
             <h2 className="text-4xl font-extrabold tracking-tight">
-              Conclusion and Discussion
+              Conclusion
             </h2>
             <p className="text-xl text-slate-600 leading-relaxed">
-              In conclusion, 
+              This project successfully demonstrates that property valuation in
+              Toronto can be decomposed into physical and socioeconomic factors.
+              While square footage remains the fundamental value of a property,
+              market value is aggressively depressed or inflated based on the
+              conditions of a neighbourhood. By integrating with socioeconomic
+              data, we reduced predictive error by 31.6%, showing that market
+              values can be quantified rather than subjective intuition. For
+              participants in the housing market, smaller properties in a
+              rapidly gentrifying area could see higher appreciation than a
+              larger property in a socioeconomically stagnant area.
+            </p>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              There are several limitations in this project. First, the analysis
+              is only using a small snapshot in time for Toronto, which is not a
+              good representation of housing markets in other cities or the GTA
+              housing market as a whole. Therefore, it limits the generalization
+              of our findings concluded in this project. Second, the
+              socioeconomic data collected by Census Canada is subdivided into
+              census tracts, which are designed for administrative and
+              demographic stability, not for housing market analysis. The model
+              assumes a uniform socioeconomic environment across the entire
+              neighbourhood, which may not reflect the reality of houses located
+              in arbitrary demographic zones with no real physical boundaries.
+              Finally, the census data collected in 2021, which leaves a large
+              gap in time where demographic shifts already occurred. The model
+              lacks the ability to capture the speed of change, potentially
+              underestimates the value in rapidly gentrifying neighbourhoods or
+              overestimates in declining ones.
+            </p>
+            <p className="text-xl text-slate-600 leading-relaxed">
+              For future work, we aim to leverage more comprehensive housing
+              datasets, such as those maintained by the Canadian Real Estate
+              Association (CREA), to expand the scope of our analysis. Our
+              primary objective is to investigate the "fundamental value" of
+              residential property and quantify the extent to which current
+              market valuations deviate from these economic baselines. Drawing
+              on the behavioural finance theories of American economist Robert
+              J. Shiller, we seek to identify the speculative craze, castles in
+              the air, constructed by market participants that drive housing
+              prices significantly beyond their intrinsic utility.
             </p>
           </div>
         </section>
