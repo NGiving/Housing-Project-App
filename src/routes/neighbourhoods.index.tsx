@@ -5,5 +5,5 @@ export const Route = createFileRoute("/neighbourhoods/")({
 });
 
 function RouteComponent() {
-  return <div>Hi</div>;
+  return <div></div>;
 }
