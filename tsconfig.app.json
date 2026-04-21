@@ -10,8 +10,11 @@
     ],
     "module": "ESNext",
     "types": [
-      "vite/client"
+      "vite/client",
+      "react",
+      "react-dom"
     ],
+    "ignoreDeprecations": "6.0",
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
