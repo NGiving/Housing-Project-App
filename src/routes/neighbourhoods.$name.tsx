@@ -81,11 +81,12 @@ function fmt_pop(v: number | null) {
 }
 
 function Neighbourhood() {
-  const { id } = Route.useParams();
-  const snapshotSrc = snapshots[`../assets/snapshots/${id}.svg`];
+  const { name } = Route.useParams();
+  console.log(name);
+  const snapshotSrc = snapshots[`../assets/snapshots/${name}.svg`];
   const [stats, setStats] = useState<HoodStats | null>(null);
 
-  const safeName = encodeURIComponent(id);
+  const safeName = encodeURIComponent(name);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +110,7 @@ function Neighbourhood() {
   return (
     <div className="max-w-5xl mx-auto px-8 py-10 space-y-10">
       <header>
-        <h1 className="text-4xl font-extrabold tracking-tight">{id}</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight">{name}</h1>
         <p className="text-xl text-slate-600 mt-2">
           Toronto neighbourhood housing snapshot
         </p>
@@ -118,11 +119,11 @@ function Neighbourhood() {
       <figure className="bg-slate-50/50 rounded-lg border p-6">
         <img
           src={snapshotSrc}
-          alt={id}
+          alt={name}
           className="w-full h-auto"
         />
         <figcaption className="mt-4 text-center text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-          Location Overview — {id}
+          Location Overview — {name}
         </figcaption>
       </figure>
 
