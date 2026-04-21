@@ -7,7 +7,7 @@ export const Route = createRootRoute({
         <h2 className="text-lg font-bold tracking-tight">
           {/* Toronto Neighborhood Data */}
           <Link to="/">
-            <img src="../../public/logo.svg" alt="6ixhomes logo" className="w-35" />
+            <img src="/logo.svg" alt="6ixhomes logo" className="w-35" />
           </Link>
         </h2>
         {/* You can add a Theme Toggle or Search here later */}
