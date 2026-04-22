@@ -1,4 +1,5 @@
-import { createRootRoute, Outlet, Link } from "@tanstack/react-router";
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import logo from "../assets/logo.svg";
 
 export const Route = createRootRoute({
   component: () => (
@@ -7,7 +8,10 @@ export const Route = createRootRoute({
         <h2 className="text-lg font-bold tracking-tight">
           <div className="w-35">
             <Link to="/">
-              <img src="/logo.svg" alt="6ixhomes logo" />
+              <img
+                src={logo}
+                alt="6ixhomes logo"
+              />
             </Link>
           </div>
         </h2>
@@ -19,7 +23,9 @@ export const Route = createRootRoute({
       </main>
       <footer>
         <div className="text-center p-3">
-          <p className="text-s text-slate-600 leading-relaxed">&copy;6IXHOMES Team</p>
+          <p className="text-s text-slate-600 leading-relaxed">
+            &copy;6IXHOMES Team
+          </p>
         </div>
       </footer>
     </div>

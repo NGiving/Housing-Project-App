@@ -83,7 +83,6 @@ function fmt_pop(v: number | null) {
 
 function Neighbourhood() {
   const { name } = Route.useParams();
-  console.log(name);
   const snapshotSrc = snapshots[`../assets/snapshots/${name}.svg`];
   const [stats, setStats] = useState<HoodStats | null>(null);
 
