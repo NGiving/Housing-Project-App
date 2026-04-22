@@ -14,7 +14,6 @@
       "react",
       "react-dom"
     ],
-    "ignoreDeprecations": "6.0",
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -30,7 +29,6 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
