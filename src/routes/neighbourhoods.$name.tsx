@@ -1,6 +1,7 @@
 import { BokehEmbed } from "@/components/BokehEmbed";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const snapshots = import.meta.glob("../assets/snapshots/*.svg", {
@@ -102,13 +103,30 @@ function Neighbourhood() {
   if (!snapshotSrc) {
     return (
       <div className="container max-w-5xl mx-auto px-8 py-6">
-        <h1 className="text-center">Neighbourhood not found</h1>
+        <Link
+          to="/"
+          className="text-blue-600 hover:underline mb-4 inline-block"
+        >
+          ← Back to Map
+        </Link>
+        <h1 className="text-center text-2xl font-bold">
+          Neighbourhood not found
+        </h1>
       </div>
     );
   }
 
   return (
     <div className="max-w-5xl mx-auto px-8 py-10 space-y-10">
+      <nav>
+        <Link
+          to="/"
+          className="group flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          Back to City Map
+        </Link>
+      </nav>
       <header>
         <h1 className="text-4xl font-extrabold tracking-tight">{name}</h1>
         <p className="text-xl text-slate-600 mt-2">

@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as NeighbourhoodsIndexRouteImport } from './routes/neighbourhoods.index'
 import { Route as NeighbourhoodsNameRouteImport } from './routes/neighbourhoods.$name'
 
 const CompareRoute = CompareRouteImport.update({
@@ -24,11 +23,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NeighbourhoodsIndexRoute = NeighbourhoodsIndexRouteImport.update({
-  id: '/neighbourhoods/',
-  path: '/neighbourhoods/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NeighbourhoodsNameRoute = NeighbourhoodsNameRouteImport.update({
   id: '/neighbourhoods/$name',
   path: '/neighbourhoods/$name',
@@ -39,39 +33,30 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/neighbourhoods/$name': typeof NeighbourhoodsNameRoute
-  '/neighbourhoods/': typeof NeighbourhoodsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/neighbourhoods/$name': typeof NeighbourhoodsNameRoute
-  '/neighbourhoods': typeof NeighbourhoodsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/neighbourhoods/$name': typeof NeighbourhoodsNameRoute
-  '/neighbourhoods/': typeof NeighbourhoodsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/compare' | '/neighbourhoods/$name' | '/neighbourhoods/'
+  fullPaths: '/' | '/compare' | '/neighbourhoods/$name'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compare' | '/neighbourhoods/$name' | '/neighbourhoods'
-  id:
-    | '__root__'
-    | '/'
-    | '/compare'
-    | '/neighbourhoods/$name'
-    | '/neighbourhoods/'
+  to: '/' | '/compare' | '/neighbourhoods/$name'
+  id: '__root__' | '/' | '/compare' | '/neighbourhoods/$name'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompareRoute: typeof CompareRoute
   NeighbourhoodsNameRoute: typeof NeighbourhoodsNameRoute
-  NeighbourhoodsIndexRoute: typeof NeighbourhoodsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -90,13 +75,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/neighbourhoods/': {
-      id: '/neighbourhoods/'
-      path: '/neighbourhoods'
-      fullPath: '/neighbourhoods/'
-      preLoaderRoute: typeof NeighbourhoodsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/neighbourhoods/$name': {
       id: '/neighbourhoods/$name'
       path: '/neighbourhoods/$name'
@@ -111,7 +89,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompareRoute: CompareRoute,
   NeighbourhoodsNameRoute: NeighbourhoodsNameRoute,
-  NeighbourhoodsIndexRoute: NeighbourhoodsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

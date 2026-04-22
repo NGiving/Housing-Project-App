@@ -76,7 +76,6 @@ function MapControls({
             <Link
               to="/neighbourhoods/$name"
               params={{ name: activeNeighbourhood }}
-              target="_blank"
               className="w-full inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white! shadow hover:bg-primary/90"
             >
               View Full Profile
